@@ -1,0 +1,14 @@
+package: github.com/lzbj/ConfMan
+import:
+- package: github.com/coreos/etcd
+  subpackages:
+  - clientv3
+- package: github.com/golang/protobuf
+  subpackages:
+  - proto
+  - ptypes/timestamp
+- package: github.com/spf13/viper
+- package: golang.org/x/net
+  subpackages:
+  - context
+- package: google.golang.org/grpc

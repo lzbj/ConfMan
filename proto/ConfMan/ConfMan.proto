@@ -1,0 +1,42 @@
+syntax="proto3";
+package ConfMan;
+import "google/protobuf/timestamp.proto";
+
+service ConfMan {
+    rpc GetConf (GetConfRequest) returns (ConfigurationModel);
+    rpc UpdateConf (UpdateConfRequest) returns (ConfigurationModel);
+    rpc DeleteConf (DeleteConfRequest) returns (DeleteConfResponse);
+    rpc CreateConf (UpdateConfRequest) returns (ConfigurationModel);
+}
+
+message ErrorMessage{
+    string message =1;
+}
+
+
+message GetConfRequest{
+    string ServiceName=1;
+    string HashKey =2;
+}
+
+message UpdateConfRequest{
+    string ServiceName=1;
+    string HashKey =2;
+    string HashValue =3;
+}
+
+message DeleteConfRequest{
+    string ServiceName=1;
+    string HashKey =2;
+}
+
+message DeleteConfResponse{
+    string status = 1;
+    int32 code = 2;
+}
+
+message ConfigurationModel{
+    string ServiceName =1;
+    string HashKey =2;
+    string HashValue =3;
+}

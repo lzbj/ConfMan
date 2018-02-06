@@ -1,0 +1,22 @@
+{
+  "debug": true,
+  "server": {
+    "address": ":5001",
+    "port": "8081"
+  },
+  "backend": {
+    "type": "etcd",
+    "address":"127.0.0.1:2379",
+    "port":"2079"
+  },
+  "database": {
+    "host": "localhost",
+    "port": "33061",
+    "user": "root",
+    "pass": "password"
+  },
+  "": {
+
+  }
+
+}
