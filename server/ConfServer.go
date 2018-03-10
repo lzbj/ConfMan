@@ -64,15 +64,42 @@ func (s *ConfManServer) GetConf(c context.Context, rq *cm.GetConfRequest) (*cm.C
 	return res, nil
 }
 
-func (s *ConfManServer) UpdateConf(context.Context, *cm.UpdateConfRequest) (*cm.ConfigurationModel, error) {
-	return nil, nil
-}
-
-func (s *ConfManServer) DeleteConf(context.Context, *cm.DeleteConfRequest) (*cm.DeleteConfResponse, error) {
-	return nil, nil
-}
-
 func (s *ConfManServer) CreateConf(c context.Context, ur *cm.UpdateConfRequest) (*cm.ConfigurationModel, error) {
 	c1 := &cm.ConfigurationModel{}
-	return c1, nil
+	c1.ServiceName = ur.ServiceName
+	c1.HashKey = ur.HashKey
+	c1.HashValue = ur.HashValue
+	cm, err := persist.Update(c, c1)
+	if err != nil {
+		return nil, err
+	}
+	return cm, nil
+}
+
+func (s *ConfManServer) UpdateConf(c context.Context, rq *cm.UpdateConfRequest) (*cm.ConfigurationModel, error) {
+	c1 := &cm.ConfigurationModel{}
+	c1.ServiceName = rq.ServiceName
+	c1.HashKey = rq.HashKey
+	c1.HashValue = rq.HashValue
+	cm, err := persist.Update(c, c1)
+	if err != nil {
+		return nil, err
+	}
+	return cm, nil
+}
+
+func (s *ConfManServer) DeleteConf(c context.Context, rq *cm.DeleteConfRequest) (*cm.DeleteConfResponse, error) {
+	c1 := &cm.ConfigurationModel{}
+	c1.ServiceName = rq.ServiceName
+	c1.HashKey = rq.HashKey
+	_, err := persist.Delete(c, rq.HashKey)
+	resp := &cm.DeleteConfResponse{}
+	if err != nil {
+		resp.Code = 400
+		resp.Status = "delete failed"
+		return resp, err
+	}
+	resp.Code = 200
+	resp.Status = "delete succeed"
+	return resp, nil
 }
